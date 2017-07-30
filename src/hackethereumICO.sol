@@ -1,8 +1,7 @@
 pragma solidity ^0.4.10;
 
 import "./mortal.sol";
-
-contract IToken { function mintToken(address target, uint256 mintedAmount) { target = target; mintedAmount = mintedAmount;} }
+import "./hackoin.sol";
 
 contract hackethereumICO is mortal {
     
@@ -10,22 +9,26 @@ contract hackethereumICO is mortal {
     uint public amountRaised;
     uint public deadline;
     uint public price;
-    IToken public tokenReward;
+
+    hackoin public hackoinToken;
+
     mapping(address => uint256) public balanceOf;
+
     event FundTransfer(address backer, uint amount, bool isContribution);
     event Debug(string message);
-    bool crowdsaleClosed = false;
 
     function hackethereumICO(
         address ifSuccessfulSendTo,
         uint durationInMinutes,
-        uint etherCostOfEachToken,
-        IToken addressOfTokenUsedAsReward
+        uint etherCostOfEachToken
     ) {
         beneficiary = ifSuccessfulSendTo;
         deadline = now + durationInMinutes * 1 minutes;
         price = etherCostOfEachToken * 1 ether;
-        tokenReward = IToken(addressOfTokenUsedAsReward);
+
+        Debug("Creating hackoin token");
+        address tokenContractAddress = new hackoin();
+        hackoinToken = hackoin(tokenContractAddress);
         Debug("ICO contract created");
     }
 
@@ -34,10 +37,12 @@ contract hackethereumICO is mortal {
         require (now < deadline);
 
         uint amount = msg.value;
-        balanceOf[msg.sender] = amount;
+
+        // TODO need to check for overflows?
+        balanceOf[msg.sender] += amount;
         amountRaised += amount;
         Debug("Paying backer");
-        tokenReward.mintToken(msg.sender, amount / price);
+        hackoinToken.mintToken(msg.sender, amount / price);
         FundTransfer(msg.sender, amount, true);
         Debug("Funding complete");
     }
