@@ -11,8 +11,8 @@ contract hackoin is ERC20Interface, owned, mortal {
 
     event Debug(string message);
 
-    mapping (address => uint256) public balances;
-    mapping (address => mapping (address => uint256)) allowed;
+    mapping (address => uint256) private balances;
+    mapping (address => mapping (address => uint256)) private allowed;
 
     function hackoin() {
         _totalSupply = 0;

@@ -4,27 +4,26 @@ import "./mortal.sol";
 import "./hackoin.sol";
 
 contract hackethereumICO is mortal {
+    uint256 public amountRaised;
+    uint256 public deadline;
     
-    address public beneficiary;
-    uint public amountRaised;
-    uint public deadline;
-    uint public price;
+    address private beneficiary;
+    uint256 private price;
 
-    hackoin public hackoinToken;
+    hackoin private hackoinToken;
 
-    mapping(address => uint256) public balanceOf;
+    mapping(address => uint256) private balanceOf;
 
-    event FundTransfer(address backer, uint amount, bool isContribution);
+    event FundTransfer(address backer, uint256 amount, bool isContribution);
     event Debug(string message);
 
     function hackethereumICO(
         address ifSuccessfulSendTo,
-        uint durationInMinutes,
-        uint etherCostOfEachToken
+        uint256 durationInMinutes
     ) {
         beneficiary = ifSuccessfulSendTo;
         deadline = now + durationInMinutes * 1 minutes;
-        price = etherCostOfEachToken * 1 ether;
+        price = 0.1 * 1 ether;
 
         Debug("Creating hackoin token");
         address tokenContractAddress = new hackoin();
@@ -33,12 +32,17 @@ contract hackethereumICO is mortal {
     }
 
     function () payable {
+    }
+
+    function fund() payable {
         Debug("Funding ICO");
         require (now < deadline);
 
-        uint amount = msg.value;
+        uint256 amount = msg.value;
 
-        // TODO need to check for overflows?
+        require (balanceOf[msg.sender] + amount >= balanceOf[msg.sender]);
+        require (this.balance + amount >= this.balance);
+
         balanceOf[msg.sender] += amount;
         amountRaised += amount;
         Debug("Paying backer");
@@ -49,11 +53,25 @@ contract hackethereumICO is mortal {
 
     modifier afterDeadline() { if (now >= deadline) _; }
 
-    function withdrawFunds() afterDeadline {
-        if (beneficiary == msg.sender) {
-            if (beneficiary.send(amountRaised)) {
-                FundTransfer(beneficiary, amountRaised, false);
-            }
+    function withdrawFunds(uint256 amount) afterDeadline {
+        Debug("Withdrawing");
+        require (beneficiary == msg.sender);
+
+        require (this.balance > 0);
+        require (amount <= this.balance);
+
+        if (beneficiary.send(amount))
+        {
+            FundTransfer(beneficiary, amount, false);
         }
+        else
+        {
+            Debug("Failed withdraw.");
+        }
+    }
+
+    function kill() onlyOwner {
+        hackoinToken.kill();
+        mortal.kill();
     }
 }
