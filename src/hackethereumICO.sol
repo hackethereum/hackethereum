@@ -3,21 +3,21 @@ pragma solidity ^0.4.10;
 import "./mortal.sol";
 import "./hackoin.sol";
 
-contract hackethereumICO is mortal {
+contract hackethereumIco is mortal {
     uint256 public _amountRaised;
     uint256 public _deadline;
     
     address private _beneficiary;
     uint256 private _price;
 
-    hackoin private _hackoinToken;
+    hackoin public _hackoinToken;
 
     mapping(address => uint256) private _balanceOf;
 
-    event FundTransfer(address backer, uint256 amount, bool isContribution);
+    event FundTransfer(address indexed backer, uint256 amount, bool isContribution);
     event Debug(string message);
 
-    function hackethereumICO(
+    function hackethereumIco(
         address ifSuccessfulSendTo,
         uint256 durationInMinutes
     ) {
