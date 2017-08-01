@@ -23,6 +23,8 @@ contract hackoin is ERC20Interface, owned, mortal {
     }
 
     function transfer(address _to, uint256 _value) returns (bool success) {
+        require(msg.data.length == 32*2+4);
+
         // TODO: Need to tidy up these checks to be consistent with transferFrom.
         require (balances[msg.sender] >= _value);
         require (_value > 0);
@@ -41,6 +43,8 @@ contract hackoin is ERC20Interface, owned, mortal {
         address _to,
         uint256 _amount
     ) returns (bool success) {
+        require(msg.data.length == 32*3+4);
+
         if (balances[_from] >= _amount
             && allowed[_from][msg.sender] >= _amount
             && _amount > 0
@@ -58,6 +62,7 @@ contract hackoin is ERC20Interface, owned, mortal {
     }
 
     function mintToken(address target, uint256 mintedAmount) onlyOwner {
+        require(msg.data.length == 32*2+4);
         Debug("Minting token");
         balances[target] += mintedAmount;
         _totalSupply += mintedAmount;
@@ -70,16 +75,19 @@ contract hackoin is ERC20Interface, owned, mortal {
     }
 
     function balanceOf(address _owner) constant returns (uint256 balance) {
+        require(msg.data.length == 32+4);
         return balances[_owner];
     }
 
     function approve(address _spender, uint256 _amount) returns (bool success) {
+        require(msg.data.length == 32*2+4);
         allowed[msg.sender][_spender] = _amount;
         Approval(msg.sender, _spender, _amount);
         return true;
     }
 
     function allowance(address _owner, address _spender) constant returns (uint256 remaining) {
+        require(msg.data.length == 32*2+4);
         return allowed[_owner][_spender];
     }
 }
