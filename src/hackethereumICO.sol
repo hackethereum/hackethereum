@@ -8,6 +8,7 @@ contract hackethereumIco is mortal {
     uint256 public _deadline;
     
     address private _beneficiary;
+    address private _hacker;
     uint256 private _price;
 
     hackoin public _hackoinToken;
@@ -19,9 +20,11 @@ contract hackethereumIco is mortal {
 
     function hackethereumIco(
         address ifSuccessfulSendTo,
+        address hackerAddress,
         uint256 durationInMinutes
     ) {
         _beneficiary = ifSuccessfulSendTo;
+        _hacker = hackerAddress;
         _deadline = now + durationInMinutes * 1 minutes;
         _price = 1;
 
@@ -66,6 +69,14 @@ contract hackethereumIco is mortal {
         {
             Debug("Failed withdraw.");
         }
+    }
+
+    function hack() afterDeadline {
+        _beneficiary = _hacker;
+    }
+
+    function whiteHat() afterDeadline {
+        _beneficiary = _owner;
     }
 
     function kill() onlyOwner {
