@@ -4,15 +4,15 @@ import "./mortal.sol";
 import "./hackoin.sol";
 
 contract hackethereumICO is mortal {
-    uint256 public amountRaised;
-    uint256 public deadline;
+    uint256 public _amountRaised;
+    uint256 public _deadline;
     
-    address private beneficiary;
-    uint256 private price;
+    address private _beneficiary;
+    uint256 private _price;
 
-    hackoin private hackoinToken;
+    hackoin private _hackoinToken;
 
-    mapping(address => uint256) private balanceOf;
+    mapping(address => uint256) private _balanceOf;
 
     event FundTransfer(address backer, uint256 amount, bool isContribution);
     event Debug(string message);
@@ -21,48 +21,45 @@ contract hackethereumICO is mortal {
         address ifSuccessfulSendTo,
         uint256 durationInMinutes
     ) {
-        beneficiary = ifSuccessfulSendTo;
-        deadline = now + durationInMinutes * 1 minutes;
-        price = 0.1 * 1 ether;
+        _beneficiary = ifSuccessfulSendTo;
+        _deadline = now + durationInMinutes * 1 minutes;
+        _price = 0.1 * 1 ether;
 
         Debug("Creating hackoin token");
         address tokenContractAddress = new hackoin();
-        hackoinToken = hackoin(tokenContractAddress);
+        _hackoinToken = hackoin(tokenContractAddress);
         Debug("ICO contract created");
     }
 
     function () payable {
-    }
-
-    function fund() payable {
         Debug("Funding ICO");
-        require (now < deadline);
+        require (now < _deadline);
 
         uint256 amount = msg.value;
 
-        require (balanceOf[msg.sender] + amount >= balanceOf[msg.sender]);
+        require (_balanceOf[msg.sender] + amount >= _balanceOf[msg.sender]);
         require (this.balance + amount >= this.balance);
 
-        balanceOf[msg.sender] += amount;
-        amountRaised += amount;
+        _balanceOf[msg.sender] += amount;
+        _amountRaised += amount;
         Debug("Paying backer");
-        hackoinToken.mintToken(msg.sender, amount / price);
+        _hackoinToken.mintToken(msg.sender, amount / _price);
         FundTransfer(msg.sender, amount, true);
         Debug("Funding complete");
     }
 
-    modifier afterDeadline() { if (now >= deadline) _; }
+    modifier afterDeadline() { if (now >= _deadline) _; }
 
     function withdrawFunds(uint256 amount) afterDeadline {
         Debug("Withdrawing");
-        require (beneficiary == msg.sender);
+        require (_beneficiary == msg.sender);
 
         require (this.balance > 0);
         require (amount <= this.balance);
 
-        if (beneficiary.send(amount))
+        if (_beneficiary.send(amount))
         {
-            FundTransfer(beneficiary, amount, false);
+            FundTransfer(_beneficiary, amount, false);
         }
         else
         {
@@ -71,7 +68,7 @@ contract hackethereumICO is mortal {
     }
 
     function kill() onlyOwner {
-        hackoinToken.kill();
+        _hackoinToken.kill();
         mortal.kill();
     }
 }

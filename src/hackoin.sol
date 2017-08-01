@@ -11,8 +11,8 @@ contract hackoin is ERC20Interface, owned, mortal {
 
     event Debug(string message);
 
-    mapping (address => uint256) private balances;
-    mapping (address => mapping (address => uint256)) private allowed;
+    mapping (address => uint256) private _balances;
+    mapping (address => mapping (address => uint256)) private _allowed;
 
     function hackoin() {
         _totalSupply = 0;
@@ -25,69 +25,61 @@ contract hackoin is ERC20Interface, owned, mortal {
     function transfer(address _to, uint256 _value) returns (bool success) {
         require(msg.data.length == 32*2+4);
 
-        // TODO: Need to tidy up these checks to be consistent with transferFrom.
-        require (balances[msg.sender] >= _value);
+        require (_balances[msg.sender] >= _value);
         require (_value > 0);
-        require (balances[_to] + _value >= balances[_to]);
+        require (_balances[_to] + _value >= _balances[_to]);
 
         Debug("Transfering tokens");
-        balances[msg.sender] -= _value;
-        balances[_to] += _value;
+        _balances[msg.sender] -= _value;
+        _balances[_to] += _value;
 
         Transfer(msg.sender, _to, _value);
         return true;
     }
 
-    function transferFrom(
-        address _from,
-        address _to,
-        uint256 _amount
-    ) returns (bool success) {
+    function transferFrom(address _from, address _to, uint256 _amount) returns (bool success) {
         require(msg.data.length == 32*3+4);
 
-        if (balances[_from] >= _amount
-            && allowed[_from][msg.sender] >= _amount
-            && _amount > 0
-            && balances[_to] + _amount > balances[_to])
-        {
-            balances[_from] -= _amount;
-            allowed[_from][msg.sender] -= _amount;
-            balances[_to] += _amount;
-            Transfer(_from, _to, _amount);
-            return true;
-        }
-        else {
-            return false;
-        }
+        require (_balances[_from] >= _amount);
+        require(_allowed[_from][msg.sender] >= _amount);
+        require(_amount > 0);
+        require(_balances[_to] + _amount > _balances[_to]);
+
+        _balances[_from] -= _amount;
+        _allowed[_from][msg.sender] -= _amount;
+        _balances[_to] += _amount;
+        Transfer(_from, _to, _amount);
+        return true;
     }
 
     function mintToken(address target, uint256 mintedAmount) onlyOwner {
         require(msg.data.length == 32*2+4);
+
         Debug("Minting token");
-        balances[target] += mintedAmount;
+        _balances[target] += mintedAmount;
         _totalSupply += mintedAmount;
-        Transfer(0, owner, mintedAmount);
-        Transfer(owner, target, mintedAmount);
+        Transfer(0, _owner, mintedAmount);
+        Transfer(_owner, target, mintedAmount);
     }
 
     function totalSupply() constant returns (uint256 totalSupply) {
-        totalSupply = _totalSupply;
+        return _totalSupply;
     }
 
-    function balanceOf(address _owner) constant returns (uint256 balance) {
+    function balanceOf(address owner) constant returns (uint256 balance) {
         require(msg.data.length == 32+4);
-        return balances[_owner];
+        return _balances[owner];
     }
 
-    function approve(address _spender, uint256 _amount) returns (bool success) {
+    function approve(address spender, uint256 amount) returns (bool success) {
         require(msg.data.length == 32*2+4);
-        allowed[msg.sender][_spender] = _amount;
-        Approval(msg.sender, _spender, _amount);
+        _allowed[msg.sender][spender] = amount;
+        Approval(msg.sender, spender, amount);
         return true;
     }
 
-    function allowance(address _owner, address _spender) constant returns (uint256 remaining) {
+    function allowance(address owner, address spender) constant returns (uint256 remaining) {
         require(msg.data.length == 32*2+4);
-        return allowed[_owner][_spender];
+        return _allowed[owner][spender];
     }
 }

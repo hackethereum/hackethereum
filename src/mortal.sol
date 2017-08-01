@@ -7,6 +7,6 @@ contract mortal is owned {
     }
 
     function kill() onlyOwner {
-        selfdestruct(owner);
+        selfdestruct(_owner);
     }
 }
