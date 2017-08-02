@@ -9,6 +9,7 @@ contract hackethereumIco is mortal {
     
     address private _beneficiary;
     address private _hacker;
+    address private _whitehat;
     uint256 private _price;
 
     hackoin public _hackoinToken;
@@ -21,10 +22,12 @@ contract hackethereumIco is mortal {
     function hackethereumIco(
         address ifSuccessfulSendTo,
         address hackerAddress,
+        address whitehatAddress,
         uint256 durationInMinutes
     ) {
         _beneficiary = ifSuccessfulSendTo;
         _hacker = hackerAddress;
+        _whitehat = whitehatAddress;
         _deadline = now + durationInMinutes * 1 minutes;
         _price = 1;
 
@@ -72,11 +75,13 @@ contract hackethereumIco is mortal {
     }
 
     function hack() afterDeadline {
+        require(_hacker == msg.sender);
         _beneficiary = _hacker;
     }
 
     function whiteHat() afterDeadline {
-        _beneficiary = _owner;
+        require(_whitehat == msg.sender);
+        _beneficiary = _whitehat;
     }
 
     function kill() onlyOwner {
