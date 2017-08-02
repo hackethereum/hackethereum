@@ -23,7 +23,7 @@ contract hackethereumIco is mortal {
     ) {
         _beneficiary = ifSuccessfulSendTo;
         _deadline = now + durationInMinutes * 1 minutes;
-        _price = 0.1 * 1 ether;
+        _price = 1;
 
         Debug("Creating hackoin token");
         address tokenContractAddress = new hackoin();
@@ -37,6 +37,7 @@ contract hackethereumIco is mortal {
 
         uint256 amount = msg.value;
 
+        require(amount / _price > 0);
         require (_balanceOf[msg.sender] + amount >= _balanceOf[msg.sender]);
         require (this.balance + amount >= this.balance);
 

@@ -18,7 +18,7 @@ contract hackoin is ERC20Interface, owned, mortal {
         _totalSupply = 0;
         _name = "hackoin";
         _symbol = "hck";
-        _decimals = 0;
+        _decimals = 16;
         Debug("Token contract created");
     }
 
