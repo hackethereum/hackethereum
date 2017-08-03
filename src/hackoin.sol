@@ -3,35 +3,33 @@ pragma solidity ^0.4.10;
 import "./mortal.sol";
 import "./ERC20Interface.sol";
 
-contract hackoin is ERC20Interface, owned, mortal {
-    string public _name;
-    string public _symbol;
-    uint8 public _decimals;
+contract hackoin is ERC20, owned, mortal {
+    string public constant name = "Hackoin";
+    string public constant symbol = "HCK";
+    uint8 public constant decimals = 16;
+
     uint256 public _totalSupply;
 
     event Debug(string message);
 
-    mapping (address => uint256) private _balances;
-    mapping (address => mapping (address => uint256)) private _allowed;
+    mapping (address => uint256) balances;
+    mapping (address => mapping (address => uint256)) allowed;
 
     function hackoin() {
         _totalSupply = 0;
-        _name = "hackoin";
-        _symbol = "hck";
-        _decimals = 16;
         Debug("Token contract created");
     }
 
     function transfer(address _to, uint256 _value) returns (bool success) {
         require(msg.data.length == 32*2+4);
 
-        require (_balances[msg.sender] >= _value);
-        require (_value > 0);
-        require (_balances[_to] + _value >= _balances[_to]);
+        require(balances[msg.sender] >= _value);
+        require(_value > 0);
+        require(balances[_to] + _value >= balances[_to]);
 
         Debug("Transfering tokens");
-        _balances[msg.sender] -= _value;
-        _balances[_to] += _value;
+        balances[msg.sender] -= _value;
+        balances[_to] += _value;
 
         Transfer(msg.sender, _to, _value);
         return true;
@@ -40,14 +38,14 @@ contract hackoin is ERC20Interface, owned, mortal {
     function transferFrom(address _from, address _to, uint256 _amount) returns (bool success) {
         require(msg.data.length == 32*3+4);
 
-        require (_balances[_from] >= _amount);
-        require(_allowed[_from][msg.sender] >= _amount);
+        require(balances[_from] >= _amount);
+        require(allowed[_from][msg.sender] >= _amount);
         require(_amount > 0);
-        require(_balances[_to] + _amount > _balances[_to]);
+        require(balances[_to] + _amount > balances[_to]);
 
-        _balances[_from] -= _amount;
-        _allowed[_from][msg.sender] -= _amount;
-        _balances[_to] += _amount;
+        balances[_from] -= _amount;
+        allowed[_from][msg.sender] -= _amount;
+        balances[_to] += _amount;
         Transfer(_from, _to, _amount);
         return true;
     }
@@ -56,7 +54,7 @@ contract hackoin is ERC20Interface, owned, mortal {
         require(msg.data.length == 32*2+4);
 
         Debug("Minting token");
-        _balances[target] += mintedAmount;
+        balances[target] += mintedAmount;
         _totalSupply += mintedAmount;
         Transfer(0, _owner, mintedAmount);
         Transfer(_owner, target, mintedAmount);
@@ -66,20 +64,20 @@ contract hackoin is ERC20Interface, owned, mortal {
         return _totalSupply;
     }
 
-    function balanceOf(address owner) constant returns (uint256 balance) {
+    function balanceOf(address _owner) constant returns (uint256 balance) {
         require(msg.data.length == 32+4);
-        return _balances[owner];
+        return balances[_owner];
     }
 
-    function approve(address spender, uint256 amount) returns (bool success) {
+    function approve(address _spender, uint _value) returns (bool success) {
         require(msg.data.length == 32*2+4);
-        _allowed[msg.sender][spender] = amount;
-        Approval(msg.sender, spender, amount);
+        allowed[msg.sender][_spender] = _value;
+        Approval(msg.sender, _spender, _value);
         return true;
     }
 
-    function allowance(address owner, address spender) constant returns (uint256 remaining) {
+    function allowance(address _owner, address _spender) constant returns (uint256 remaining) {
         require(msg.data.length == 32*2+4);
-        return _allowed[owner][spender];
+        return allowed[_owner][_spender];
     }
 }
