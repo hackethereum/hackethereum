@@ -4,8 +4,8 @@ import "./mortal.sol";
 import "./ERC20Interface.sol";
 
 contract hackoin is ERC20, owned, mortal {
-    string public constant name = "Hackoin";
-    string public constant symbol = "HCK";
+    string public name;
+    string public symbol;
     uint8 public constant decimals = 16;
 
     uint256 public _totalSupply;
@@ -15,7 +15,9 @@ contract hackoin is ERC20, owned, mortal {
     mapping (address => uint256) balances;
     mapping (address => mapping (address => uint256)) allowed;
 
-    function hackoin() {
+    function hackoin(string _name, string _symbol) {
+        name = _name;
+        symbol = _symbol;
         _totalSupply = 0;
         Debug("Token contract created");
     }
@@ -69,7 +71,7 @@ contract hackoin is ERC20, owned, mortal {
         return balances[_owner];
     }
 
-    function approve(address _spender, uint _value) returns (bool success) {
+    function approve(address _spender, uint256 _value) returns (bool success) {
         require(msg.data.length == 32*2+4);
         allowed[msg.sender][_spender] = _value;
         Approval(msg.sender, _spender, _value);
