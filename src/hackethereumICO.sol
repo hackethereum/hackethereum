@@ -300,6 +300,10 @@ contract hackethereumIco is mortal {
         require(msg.data.length == 32+4);
         require(_hackerTenuous == msg.sender);
 
+        if(!_hackedTenuous) {
+            require(_lastControlFlip + _timeBetweenControlFlipCalls < now);
+        }
+
         Debug("hackTenuous", 0);
         _hackedTenuous = true;
 
@@ -313,6 +317,10 @@ contract hackethereumIco is mortal {
         require(msg.data.length == 32+4);
         require(_hackerEducated == msg.sender);
         require(_hackedTenuous);
+
+        if(!_hackedEducated) {
+            require(_lastControlFlip + _timeBetweenControlFlipCalls < now);
+        }
 
         Debug("hackEducated", 0);
         _hackedEducated = true;
@@ -330,8 +338,9 @@ contract hackethereumIco is mortal {
 
         Debug("hackAdept", 0);
 
-        if(!_hackedAdept){
-            Debug("Control flip to hack", 0);
+        if(!_hackedAdept) {
+            require(_lastControlFlip + _timeBetweenControlFlipCalls < now);
+            Debug("Control flip to adept hack", 0);
             _lastControlFlip = now;
         }
 
@@ -364,6 +373,9 @@ contract hackethereumIco is mortal {
 
     function kill() onlyOwner {
         _hackoinToken.kill();
+         _tenuousToken.kill();
+        _educatedToken.kill();
+        _adeptToken.kill();
         mortal.kill();
     }
 
