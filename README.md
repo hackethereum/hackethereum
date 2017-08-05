@@ -1,4 +1,5 @@
 # Hackethereum #
+![test](Media/HackethereumLogo_m.jpg)
 ## Don't just get hacked, experience it. ##
 
 Getting hacked is the latest trend in Ethereum ICOs and you don't want to miss out.
@@ -8,6 +9,11 @@ Getting hacked is the latest trend in Ethereum ICOs and you don't want to miss o
 By holding **HacKoin** you can ensure that you will own a piece of cryptocoin history as you get the full experience of being hacked without the stress of unexpected losses, and without having to invest in every token out there. Your losses are 100% guaranteed from the start, so you have nothing to worry about.
 
 The Hackethereum team have been working hard to build a guaranteed hackable token. We have been following none of the latest security best practises and even been very careful not to get the code rigorously audited to ensure that there is absolutely no chance of **HacKoin** accidentally being unhackable.
+
+- [How to participate](#how-to-participate)
+- [Stretch Goals](#stretch-goals)
+- [FAQs](#faqs)
+- [Disclaimers](#disclaimers)
 
 ----------
 
@@ -70,13 +76,13 @@ Thank you for your contribution
 
 ----------
 
-###FAQs###
+### FAQs ###
 
 **Is this an investment?**
 
  - No, it is not an investment. You will not get any of your money back. Your token does not confer any rights of any kind. 100% of the funds will be hacked.
 
-**Is this a crowd fund raiser**
+**Is this a crowd fund raiser?**
 
  - No, we aren't raising funds, the ICO has already begun and will be hacked shortly after completion even if zero contributions are made. 
 
@@ -96,7 +102,7 @@ Thank you for your contribution
 
 **How can I trust you?**
 
-- You can't. The ICO will be hacked and you will lose all Ethereum you paid in. Why do you need to trust us?
+- You can't. The ICO will be hacked and you will lose all Ethereum you paid in. Period. Why do you need to trust us beyond that?
 
 ### Disclaimers ###
 - As with any ICO there are risk involved and we encourage you to invest only what you can comfortably afford to lose. **We would like to emphasise that as in this case your losses are expected to be total**, even in the event that everything works as expected. If in the unlikely event that any of the funds are recovered and returned to you our resolution team will reach out with an offer to repatriate your returned funds and ensure your final loses are not disrupted.

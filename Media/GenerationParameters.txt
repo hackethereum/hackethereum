@@ -1,0 +1,9 @@
+http://www.text-image.com/convert/
+
+Characters: 01 Random
+Font size: Large	
+Image width: 80
+Show it in: Colour
+Background: Black
+Extra contrast: No	
+Web browser: Firefox
