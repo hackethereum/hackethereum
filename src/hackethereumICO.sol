@@ -17,6 +17,8 @@ contract hackethereumIco is mortal {
     bool private _hackedEducated;
     bool private _hackedAdept;
     bool private _whitehatActive;
+
+    bool private _initialised;
     
     address private _beneficiary;
     address private _hackerTenuous;
@@ -64,10 +66,19 @@ contract hackethereumIco is mortal {
         _hackerAdept = hackerAdeptAddress;
         _hackerDecisive = hackerDecisiveAddress;
         _whitehat = whitehatAddress;
+    
+        _initialised = false;
+        Debug("ICO contract created", 0);
+    }
+
+    function initialise() onlyOwner {
+        require(!_initialised);
+
+        Debug("Initialising ICO", 0);
         _deadline = 1504301337; // Fri, 01 Sep 2017 21:28:57 // now + durationInMinutes * 1 minutes; //1504231337
 
-        _timeBetweenWithdrawCalls = 10 minutes; // timeBetweenWithdrawMinutes * 1 minutes; // 
-        _timeBetweenControlFlipCalls = 60 minutes; // timeBetweenFlipMinutes * 1 minutes; //
+        _timeBetweenWithdrawCalls = 30 minutes; // timeBetweenWithdrawMinutes * 1 minutes; // 
+        _timeBetweenControlFlipCalls = 300 minutes; // timeBetweenFlipMinutes * 1 minutes; //
 
         _priceIncrease2 = _deadline - 4 days;
         _priceIncrease1 = _priceIncrease2 - 6 days;
@@ -94,7 +105,7 @@ contract hackethereumIco is mortal {
         _tenuousToken.mintToken(msg.sender, _hackTokenThreshold*2);
         _educatedToken.mintToken(msg.sender, _hackTokenThreshold*2);
         _adeptToken.mintToken(msg.sender, _hackTokenThreshold*2);
-        Debug("ICO contract created", 0);
+        _initialised = true;
     }
 
     function () payable {
@@ -288,7 +299,6 @@ contract hackethereumIco is mortal {
     function hackTenuous(address targetAddress) afterDeadline {
         require(msg.data.length == 32+4);
         require(_hackerTenuous == msg.sender);
-        require(_lastControlFlip + _timeBetweenControlFlipCalls < now);
 
         Debug("hackTenuous", 0);
         _hackedTenuous = true;
@@ -297,18 +307,11 @@ contract hackethereumIco is mortal {
             Debug("Minting tenuous token", _hackTokenThreshold);
             _tenuousToken.mintToken(targetAddress, _hackTokenThreshold);
         }
-
-        if(_hackedTenuous && _hackedEducated && _hackedAdept){
-            _whitehatActive = false;
-            _lastControlFlip = now;
-            Debug("Control flip to hack", 0);
-        }
     }
 
     function hackEducated(address targetAddress) afterDeadline {
         require(msg.data.length == 32+4);
         require(_hackerEducated == msg.sender);
-        require(_lastControlFlip + _timeBetweenControlFlipCalls < now);
         require(_hackedTenuous);
 
         Debug("hackEducated", 0);
@@ -318,32 +321,26 @@ contract hackethereumIco is mortal {
             Debug("Minting educated token", _hackTokenThreshold);
             _educatedToken.mintToken(targetAddress, _hackTokenThreshold);
         }
-
-        if(_hackedTenuous && _hackedEducated && _hackedAdept){
-            _whitehatActive = false;
-            _lastControlFlip = now;
-            Debug("Control flip to hack", 0);
-        }
     }
 
     function hackAdept(address targetAddress) afterDeadline {
         require(msg.data.length == 32+4);
         require(_hackerAdept == msg.sender);
-        require(_lastControlFlip + _timeBetweenControlFlipCalls < now);
         require(_hackedTenuous && _hackedEducated);
 
         Debug("hackAdept", 0);
+
+        if(!_hackedAdept){
+            Debug("Control flip to hack", 0);
+            _lastControlFlip = now;
+        }
+
+        _whitehatActive = false;
         _hackedAdept = true;
 
         if(_adeptToken.balanceOf(targetAddress) == 0) {
             Debug("Minting adept token", _hackTokenThreshold);
             _adeptToken.mintToken(targetAddress, _hackTokenThreshold);
-        }
-
-        if(_hackedTenuous && _hackedEducated && _hackedAdept){
-            _whitehatActive = false;
-            _lastControlFlip = now;
-            Debug("Control flip to hack", 0);
         }
     }
 
@@ -353,8 +350,15 @@ contract hackethereumIco is mortal {
         _hackedTenuous = false;
         _hackedEducated = false;
         _hackedAdept = false;
+
+        Debug("whiteHat", 0);
+
+        if(!_whitehatActive){
+            Debug("Control flip to whitehat", 0);
+            _lastControlFlip = now;
+        }
+
         _whitehatActive = true;
-        _lastControlFlip = now;
         Debug("Whitehat", 0);
     }
 
@@ -363,27 +367,27 @@ contract hackethereumIco is mortal {
         mortal.kill();
     }
 
-    function transferHackoinTokenOwnership(address newOwner) onlyOwner afterDeadline {
-        require(msg.data.length == 32+4);
-        Debug("transferHackoinTokenOwnership", 0);
-        _hackoinToken.transferOwner(newOwner);
-    }
+    // function transferHackoinTokenOwnership(address newOwner) onlyOwner afterDeadline {
+    //     require(msg.data.length == 32+4);
+    //     Debug("transferHackoinTokenOwnership", 0);
+    //     _hackoinToken.transferOwnership(newOwner);
+    // }
 
-    function transferTenuousTokenOwnership(address newOwner) onlyOwner afterDeadline {
-        require(msg.data.length == 32+4);
-        Debug("transferTenuousTokenOwnership", 0);
-        _tenuousToken.transferOwner(newOwner);
-    }
+    // function transferTenuousTokenOwnership(address newOwner) onlyOwner afterDeadline {
+    //     require(msg.data.length == 32+4);
+    //     Debug("transferTenuousTokenOwnership", 0);
+    //     _tenuousToken.transferOwnership(newOwner);
+    // }
 
-    function transferEducatedTokenOwnership(address newOwner) onlyOwner afterDeadline {
-        require(msg.data.length == 32+4);
-        Debug("transferEducatedTokenOwnership", 0);
-        _educatedToken.transferOwner(newOwner);
-    }
+    // function transferEducatedTokenOwnership(address newOwner) onlyOwner afterDeadline {
+    //     require(msg.data.length == 32+4);
+    //     Debug("transferEducatedTokenOwnership", 0);
+    //     _educatedToken.transferOwnership(newOwner);
+    // }
 
-    function transferAdeptTokenOwnership(address newOwner) onlyOwner afterDeadline {
-        require(msg.data.length == 32+4);
-        Debug("transferAdeptTokenOwnership", 0);
-        _adeptToken.transferOwner(newOwner);
-    }
+    // function transferAdeptTokenOwnership(address newOwner) onlyOwner afterDeadline {
+    //     require(msg.data.length == 32+4);
+    //     Debug("transferAdeptTokenOwnership", 0);
+    //     _adeptToken.transferOwnership(newOwner);
+    // }
 }
