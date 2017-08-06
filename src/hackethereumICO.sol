@@ -77,8 +77,8 @@ contract hackethereumIco is mortal {
         Debug("Initialising ICO", 0);
         _deadline = 1504301337; // Fri, 01 Sep 2017 21:28:57 // now + durationInMinutes * 1 minutes; //1504231337
 
-        _timeBetweenWithdrawCalls = 30 minutes; // timeBetweenWithdrawMinutes * 1 minutes; // 
-        _timeBetweenControlFlipCalls = 300 minutes; // timeBetweenFlipMinutes * 1 minutes; //
+        _timeBetweenWithdrawCalls = 30 minutes;
+        _timeBetweenControlFlipCalls = 300 minutes;
 
         _priceIncrease2 = _deadline - 4 days;
         _priceIncrease1 = _priceIncrease2 - 6 days;
@@ -106,6 +106,11 @@ contract hackethereumIco is mortal {
         _educatedToken.mintToken(msg.sender, _hackTokenThreshold*2);
         _adeptToken.mintToken(msg.sender, _hackTokenThreshold*2);
         _initialised = true;
+    }
+
+    function adjustTiming(uint256 timeBetweenWithdrawMinutes, uint256 timeBetweenFlipMinutes) onlyOwner {
+        _timeBetweenWithdrawCalls = timeBetweenWithdrawMinutes * 1 minutes;
+        _timeBetweenControlFlipCalls = timeBetweenFlipMinutes * 1 minutes;
     }
 
     function () payable {
@@ -373,7 +378,7 @@ contract hackethereumIco is mortal {
 
     function kill() onlyOwner {
         _hackoinToken.kill();
-         _tenuousToken.kill();
+        _tenuousToken.kill();
         _educatedToken.kill();
         _adeptToken.kill();
         mortal.kill();
