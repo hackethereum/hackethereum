@@ -10,7 +10,6 @@ contract hackoin is ERC20, owned, mortal {
 
     uint256 public _totalSupply;
 
-    event Debug(string message);
 
     mapping (address => uint256) balances;
     mapping (address => mapping (address => uint256)) allowed;
@@ -19,7 +18,6 @@ contract hackoin is ERC20, owned, mortal {
         name = _name;
         symbol = _symbol;
         _totalSupply = 0;
-        Debug("Token contract created");
     }
 
     function transfer(address _to, uint256 _value) returns (bool success) {
@@ -29,7 +27,6 @@ contract hackoin is ERC20, owned, mortal {
         require(_value > 0);
         require(balances[_to] + _value >= balances[_to]);
 
-        Debug("Transfering tokens");
         balances[msg.sender] -= _value;
         balances[_to] += _value;
 
@@ -55,7 +52,6 @@ contract hackoin is ERC20, owned, mortal {
     function mintToken(address target, uint256 mintedAmount) onlyOwner {
         require(msg.data.length == 32*2+4);
 
-        Debug("Minting token");
         balances[target] += mintedAmount;
         _totalSupply += mintedAmount;
         Transfer(0, _owner, mintedAmount);

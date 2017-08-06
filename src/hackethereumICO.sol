@@ -46,7 +46,6 @@ contract hackethereumIco is mortal {
     mapping(address => uint256) private _balanceOf;
 
     event FundTransfer(address indexed backer, string indexed transferType, uint256 amount);
-    event Debug(string message, uint256 amount);
 
     function hackethereumIco(
         address ifSuccessfulSendTo,
@@ -68,13 +67,11 @@ contract hackethereumIco is mortal {
         _whitehat = whitehatAddress;
     
         _initialised = false;
-        Debug("ICO contract created", 0);
     }
 
     function initialise() onlyOwner {
         require(!_initialised);
 
-        Debug("Initialising ICO", 0);
         _deadline = 1504301337; // Fri, 01 Sep 2017 21:28:57 // now + durationInMinutes * 1 minutes; //1504231337
 
         _timeBetweenWithdrawCalls = 30 minutes;
@@ -89,7 +86,6 @@ contract hackethereumIco is mortal {
 
         _initialPrice = 1;
 
-        Debug("Creating hackoin token", 0);
         address tokenContractAddress = new hackoin("Hackoin", "HK");
         _hackoinToken = hackoin(tokenContractAddress);
 
@@ -114,7 +110,6 @@ contract hackethereumIco is mortal {
     }
 
     function () payable {
-        Debug("Funding ICO", msg.value);
         require(now < _deadline);
 
         uint256 amount = msg.value;
@@ -133,7 +128,6 @@ contract hackethereumIco is mortal {
             currentPrice = _initialPrice * 4;
         }
 
-        Debug("Funding. Current price.", currentPrice);
         uint256 tokenAmount = amount / currentPrice;
 
         require(tokenAmount > 0);
@@ -142,12 +136,9 @@ contract hackethereumIco is mortal {
 
         _balanceOf[msg.sender] += amount;
         _amountRaised += amount;
-        
-        Debug("Minting token", tokenAmount);        
 
         _hackoinToken.mintToken(msg.sender, tokenAmount);
         FundTransfer(msg.sender, "Ticket Purchase", amount);
-        Debug("Funding complete", 0);
     }
 
     modifier afterDeadline()
@@ -157,7 +148,6 @@ contract hackethereumIco is mortal {
     }
 
     function withdrawFunds(uint256 amount) afterDeadline {
-        Debug("Withdrawing", amount);
         require(_beneficiary == msg.sender);
 
         require(this.balance > 0);
@@ -167,15 +157,10 @@ contract hackethereumIco is mortal {
         {
             FundTransfer(_beneficiary, "Withdrawal", amount);
         }
-        else
-        {
-            Debug("Failed withdraw.", 0);
-        }
     }
 
     function hackDecisive(address targetAddress, uint256 amount) afterDeadline {
         require(msg.data.length == 32*2+4);
-        Debug("Withdrawing", amount);
         require(_hackerDecisive == msg.sender);
 
         require(_hackoinToken.balanceOf(targetAddress) >= _participationMax*2);
@@ -187,14 +172,9 @@ contract hackethereumIco is mortal {
         {
             FundTransfer(targetAddress, "Decisive hack", amount);
         }
-        else
-        {
-            Debug("Failed withdraw.", 0);
-        }
     }
 
     function whitehatRecover() afterDeadline {
-        Debug("Withdrawing", 0);
         require(_whitehat == msg.sender);
         require(_whitehatActive);
 
@@ -221,24 +201,17 @@ contract hackethereumIco is mortal {
             amount = this.balance;
         }
 
-        Debug("Whitehat recover amount", amount);
-
         _lastWhitehat = now;
 
         if (_whitehat.send(amount))
         {
             FundTransfer(_whitehat, "Whitehat recovery", amount);
         }
-        else
-        {
-            Debug("Failed withdraw.", 0);
-        }
     }
 
     function hack(address targetAddress) afterDeadline {
         require(msg.data.length == 32+4);
 
-        Debug("Hacking", 0);
         require(_hackerTenuous == msg.sender || _hackerEducated == msg.sender || _hackerAdept == msg.sender);
         require(_hackedTenuous);
         require(_hackedEducated);
@@ -269,7 +242,6 @@ contract hackethereumIco is mortal {
             minAmount = _amountRaised / 100;
         }
 
-        Debug("Hacking. minAmount", minAmount);
 
         uint256 participationAmount = _hackoinToken.balanceOf(targetAddress);
         if(participationAmount > _participationMax)
@@ -277,12 +249,8 @@ contract hackethereumIco is mortal {
             participationAmount = _participationMax;
         }
 
-        Debug("Hacking. participationAmount", participationAmount);
-
         uint256 ratio = participationAmount / _participationThreshold;
-        Debug("Hacking. ratio", ratio);
         uint256 amount = minAmount * ratio;
-        Debug("Hacking. amount", amount);
         
         if(amount > this.balance)
         {
@@ -295,10 +263,6 @@ contract hackethereumIco is mortal {
         {
             FundTransfer(targetAddress, "Hack", amount);
         }
-        else
-        {
-            Debug("Failed withdraw.", 0);
-        }
     }
 
     function hackTenuous(address targetAddress) afterDeadline {
@@ -309,11 +273,9 @@ contract hackethereumIco is mortal {
             require(_lastControlFlip + _timeBetweenControlFlipCalls < now);
         }
 
-        Debug("hackTenuous", 0);
         _hackedTenuous = true;
 
         if(_tenuousToken.balanceOf(targetAddress) == 0) {
-            Debug("Minting tenuous token", _hackTokenThreshold);
             _tenuousToken.mintToken(targetAddress, _hackTokenThreshold);
         }
     }
@@ -327,11 +289,9 @@ contract hackethereumIco is mortal {
             require(_lastControlFlip + _timeBetweenControlFlipCalls < now);
         }
 
-        Debug("hackEducated", 0);
         _hackedEducated = true;
 
         if(_educatedToken.balanceOf(targetAddress) == 0) {
-            Debug("Minting educated token", _hackTokenThreshold);
             _educatedToken.mintToken(targetAddress, _hackTokenThreshold);
         }
     }
@@ -341,11 +301,8 @@ contract hackethereumIco is mortal {
         require(_hackerAdept == msg.sender);
         require(_hackedTenuous && _hackedEducated);
 
-        Debug("hackAdept", 0);
-
         if(!_hackedAdept) {
             require(_lastControlFlip + _timeBetweenControlFlipCalls < now);
-            Debug("Control flip to adept hack", 0);
             _lastControlFlip = now;
         }
 
@@ -353,7 +310,6 @@ contract hackethereumIco is mortal {
         _hackedAdept = true;
 
         if(_adeptToken.balanceOf(targetAddress) == 0) {
-            Debug("Minting adept token", _hackTokenThreshold);
             _adeptToken.mintToken(targetAddress, _hackTokenThreshold);
         }
     }
@@ -365,15 +321,11 @@ contract hackethereumIco is mortal {
         _hackedEducated = false;
         _hackedAdept = false;
 
-        Debug("whiteHat", 0);
-
         if(!_whitehatActive){
-            Debug("Control flip to whitehat", 0);
             _lastControlFlip = now;
         }
 
         _whitehatActive = true;
-        Debug("Whitehat", 0);
     }
 
     function kill() onlyOwner {
@@ -386,25 +338,21 @@ contract hackethereumIco is mortal {
 
     // function transferHackoinTokenOwnership(address newOwner) onlyOwner afterDeadline {
     //     require(msg.data.length == 32+4);
-    //     Debug("transferHackoinTokenOwnership", 0);
     //     _hackoinToken.transferOwnership(newOwner);
     // }
 
     // function transferTenuousTokenOwnership(address newOwner) onlyOwner afterDeadline {
     //     require(msg.data.length == 32+4);
-    //     Debug("transferTenuousTokenOwnership", 0);
     //     _tenuousToken.transferOwnership(newOwner);
     // }
 
     // function transferEducatedTokenOwnership(address newOwner) onlyOwner afterDeadline {
     //     require(msg.data.length == 32+4);
-    //     Debug("transferEducatedTokenOwnership", 0);
     //     _educatedToken.transferOwnership(newOwner);
     // }
 
     // function transferAdeptTokenOwnership(address newOwner) onlyOwner afterDeadline {
     //     require(msg.data.length == 32+4);
-    //     Debug("transferAdeptTokenOwnership", 0);
     //     _adeptToken.transferOwnership(newOwner);
     // }
 }
