@@ -40,21 +40,21 @@ Thank you for your contribution.
 
 1. Send Ether to our ICO contract at [0xD5413b99749D50c415df34Eb782c1a5db8Df02CE](https://etherscan.io/address/0xD5413b99749D50c415df34Eb782c1a5db8Df02CE)
 
-  *The initial purchase price:*
+    *The initial purchase price:*
 
         1 eth = 100hk
         0.01 eth  = 1hk
 
-  The price **will rise** as the ICO deadline approaches. More details will be announced closer to the time.
+    The price **will rise** as the ICO deadline approaches. More details will be announced closer to the time.
 
-  *Reward levels:*
+    *Reward levels:*
 
-  - **Less than 5hk** - Non participating spectator only.
-  - **5hk** - Participant.
-  - **Over 5hk, up to 50hk** - Gold participant.
-  - **100hk** - Platinum participant.
-
-  More details on participation will be announced in the coming weeks. Participant activities will depend in the funding level reached.
+    - **Less than 5hk** - Non participating spectator only.
+    - **5hk** - Participant.
+    - **Over 5hk, up to 50hk** - Gold participant.
+    - **100hk** - Platinum participant.
+    
+    More details on participation will be announced in the coming weeks. Participant activities will depend in the funding level reached.
 
 2. Watch the **HacKoin** token to check your balance - [0xba67FdaE6FaDE46c075b01482D6157144533222C](https://etherscan.io/address/0xba67FdaE6FaDE46c075b01482D6157144533222C)
 
@@ -73,7 +73,7 @@ Regardless of the funds raised, **HacKoin** will launch and be hacked shortly af
 If we hit certain funding goals we will have the scope to take the project further.
 
 - **10 eth** - If we raise just 10 eth we will commit to a hack autopsy blog post.
-- **100 eth** - Following the hack We will post a series of vague and incomprehensible technical details to our blog and reddit to initially reassure holders before eventually staging a sincere apology and farewell.
+- **100 eth** - Following the hack we will post a series of vague and incomprehensible technical details to our blog and reddit to initially reassure holders before eventually staging a sincere apology and farewell.
 - **300 eth** - While we can't guarantee the level of mainstream media furore we will ensure that the team create an interactive bubble of pandemonium and confusion on social media that will enhance the authenticity of the hacked experience for those involved.
 - **500 eth** - We will be inviting holders of **HacKoin** to participate in specific online community outrage events that will be captured and archived for posterity.
 - **1000 eth** - The Hackethereum team will coordinate white-hat hacking efforts in an attempt to partially gain control over some of the funds before the ICO account is completely drained. Blogs and tweets will be posted during the efforts to keep holders informed.
@@ -81,7 +81,7 @@ If we hit certain funding goals we will have the scope to take the project furth
 - **5000 eth** - The Hackethereum team will create, deploy and run an Ethereum fork on which the **HacKoin** funds are recovered and available for withdrawal by **HacKoin** token holders.
 - **Above 50000 eth** - We will use half of all funds raised in an attempt to <strike>bribe</strike> convince members of the core team and prominent community members into adopting our fork as the default in all official and unofficial Ethereum clients.
 
-We have some other fun plans Hackethereum that we will announce in due course. 
+We have some other fun plans for Hackethereum that we will announce in due course. 
 
 Follow our twitter account [@hackethereum](https://twitter.com/hackethereum) to stay up to date with the latest news and activities.
 
