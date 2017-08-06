@@ -1,0 +1,9 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+.markdown-body pre.highlight {
+    color: #00ff00;
+    background: black;
+}
