@@ -49,10 +49,10 @@ Thank you for your contribution.
 
     *Reward levels:*
 
-    - **Less than 5hk** - Non participating spectator only.
-    - **5hk** - Participant.
-    - **Over 5hk, up to 50hk** - Gold participant.
-    - **100hk** - Platinum participant.
+    - **Less than 5hk** [0.05eth] - Non participating spectator only.
+    - **5hk** [0.05eth] - Participant.
+    - **Over 5hk, up to 50hk** [0.05eth to 0.5eth] - Gold participant.
+    - **100hk** [1eth] - Platinum participant.
     
     More details on participation will be announced in the coming weeks. Participant activities will depend in the funding level reached.
 
@@ -89,7 +89,7 @@ Follow our twitter account [@hackethereum](https://twitter.com/hackethereum) to 
 
 ----------
 
-*O divine art of subtlety and secrecy! The key to becoming educated is to examine every aspect, no matter how tenuous the link. But merely being adept may not be enough to prove decisive in that which follows. Not everything can be as private as required. - 0x53756e20547a7599*
+*O divine art of subtlety and secrecy! The key to becoming educated is to examine every aspect, no matter how tenuous the link. But merely being adept may not be enough to prove decisive in that which follows. Not everything can be as private as required. - 0x313a323a46686120476d682e31332e31322e31312e2d322e2b6972*
 
 
 ----------
@@ -108,7 +108,7 @@ Follow our twitter account [@hackethereum](https://twitter.com/hackethereum) to 
 
 **What the hell is this then?**
 
- - It's an interactive performance art project for the crypto generation. Your Ethereum contribution is your ticket purchase. Your **HacKoins** are your ticket. Hold on to your ticket, kick back, and enjoy the show.
+ - It's an satirical performance art project for the crypto generation. Your Ethereum contribution is your ticket purchase. Your **HacKoins** are your ticket. Hold on to your ticket, kick back, and enjoy the show.
 
 **Is everything written here true?**
 
@@ -126,7 +126,7 @@ Follow our twitter account [@hackethereum](https://twitter.com/hackethereum) to 
 
 **Can I read the source code?**
 
-- Soon.
+- Very soon.
 
 **How can I contact you?**
 
