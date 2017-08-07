@@ -126,7 +126,7 @@ Follow our twitter account [@hackethereum](https://twitter.com/hackethereum) to 
 
 **Can I read the source code?**
 
-- Very soon.
+- Yup. [Fork us on Github](https://github.com/hackethereum/hackethereum).
 
 **How can I contact you?**
 
