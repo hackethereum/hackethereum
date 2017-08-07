@@ -14,6 +14,8 @@ Getting hacked is the latest trend in Ethereum ICOs and you don't want to miss o
 
 **HacKoin** is a new [ERC20](https://theethereum.wiki/w/index.php/ERC20_Token_Standard) token from the **Hackethereum** team backed by an Ethereum ICO which is guaranteed to be 100% hacked shortly after launch.
 
+Check out our [Hackethereum white paper](https://github.com/hackethereum/hackethereum/raw/master/Hackethereum%20White%20Paper.pdf).
+
 By holding **HacKoin** you can ensure that you will own a piece of cryptocoin history as you get the full experience of being hacked without the stress of unexpected losses, and without having to invest in every token out there. Your losses are 100% guaranteed from the start, so you have nothing to worry about.
 
 The Hackethereum team have been working hard to build a guaranteed hackable token. We have been following none of the latest security best practises and even been very careful not to get the code rigorously audited to ensure that there is absolutely no chance of **HacKoin** accidentally being unhackable.
