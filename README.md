@@ -1,5 +1,3 @@
-[Sale now live] **Send ETH now --> [0xD5413b99749D50c415df34Eb782c1a5db8Df02CE](https://etherscan.io/address/0xD5413b99749D50c415df34Eb782c1a5db8Df02CE)** [Sale closes 1st September 2017 @ 21:28 UTC]
-
       ___ ___                   __              __   .__                                             
      /   |   \ _____     ____  |  | __  ____  _/  |_ |  |__    ____  _______   ____   __ __   _____  
     /    ~    \\__  \  _/ ___\ |  |/ /_/ __ \ \   __\|  |  \ _/ __ \ \_  __ \_/ __ \ |  |  \ /     \ 
@@ -10,6 +8,12 @@
                                             ## Hackethereum ##       
                                    Don't just get hacked, experience it
 
+### Update 2017-08-08 ###  
+
+Hackethereum is a blockchain based puzzle game where players work to solve a series of puzzles in order to hack the smart contract. **We have temporarily suspended the game due to poor planning on our part. We will relaunch soon with clearer instructions on participation. Check back here or follow us on twitter ([@hackethereum](https://twitter.com/hackethereum)) for updates.** 
+
+
+<strike>
 Getting hacked is the latest trend in Ethereum ICOs and you don't want to miss out.
 
 **HacKoin** is a new [ERC20](https://theethereum.wiki/w/index.php/ERC20_Token_Standard) token from the **Hackethereum** team backed by an Ethereum ICO which is guaranteed to be 100% hacked shortly after launch.
@@ -146,7 +150,8 @@ Follow our twitter account [@hackethereum](https://twitter.com/hackethereum) to 
 - Many things you read here will probably not be true.
 
 - **You will lose all your money.**
-
+</strike>
 ----------
 
 © Copyright 2017 - The Hackethereum Team.
+
